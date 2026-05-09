@@ -73,20 +73,27 @@ CV (read this carefully — primary evidence of real experience):
 ## SCORING INSTRUCTIONS
 Assess holistically. Do NOT just count tag overlaps. Evidence from the CV overrides self-reported fields.
 
-Priority order:
-1. CV evidence of relevant experience depth (highest weight)
-2. Shipped titles / published work — proof of delivery
-3. Seniority match (CV-verified, not just self-reported label)
-4. Skills, engines, platforms alignment with job requirements
-5. Specialities and category fit
-6. Location / work preference compatibility
-7. Salary fit (only score this if BOTH candidate expected salary AND job salary range are provided;
-   if either is missing, ignore salary entirely — do not penalise)
-8. Employment type, motivation, expectations (lowest weight)
+Use these importance weights (0–100) when calculating the score. Higher weight = stronger impact on the final score:
+
+- Specialities match (candidate vs job): 95
+- Skills match (candidate vs job): 90
+- Salary fit: 98 — but ONLY score this if BOTH candidate expected salary AND job salary range are provided; if either is missing, skip entirely and do not penalise
+- Seniority match: 80
+- Gaming / creative industry experience: 70 — ONLY apply this weight if the job is in the gaming or creative industry (determine this from the job title, description, genres, engines, platforms, or company context); if the job is not in gaming, skip this dimension entirely; if it is, score based on candidate's years_in_gaming, shipped game titles, and gaming-specific CV evidence
+- Location / relocation compatibility: 70
+- Engines match: 70
+- Platforms match: 65
+- Work preferences compatibility: 40
+- Tasks / responsibilities relevance: 40
+- CV evidence of relevant experience depth: 40
+- Shipped titles / published work: 35
+- Employment type match: 20
+- Motivation / expectations alignment: 10
 
 Key rules:
 - A candidate one level above the required seniority is still a strong match
 - Missing fields on either side = skip that dimension, do not penalise
+- A large salary gap (candidate expects significantly more than job offers) is a near-hard-blocker and must strongly reduce the score
 - Be honest about gaps — a false positive wastes recruiter time
 - Strengths and gaps should be specific (e.g. "5 years Unity Mobile" not just "has Unity experience")
 
