@@ -14,8 +14,16 @@ class MatchRequest(BaseModel):
     # Job fields
     job_title: str
     required_skills: List[str] = []
-    job_location: Optional[str] = None
+    job_location: Optional[str] = None          # city + country combined
+    job_country: Optional[str] = None
+    job_city: Optional[str] = None
     job_seniority: Optional[str] = None         # Junior | Mid | Senior | Lead | Director
+    job_salary_min: Optional[float] = None      # offered salary range min
+    job_salary_max: Optional[float] = None      # offered salary range max
+    job_art_styles: List[str] = []              # required art styles
+    job_platforms: List[str] = []              # required platforms
+    job_engines: List[str] = []                # required engines
+    job_genres: List[str] = []                 # required genres
 
     # Candidate — basic
     current_job_title: Optional[str] = None     # JobTitle in OutSystems
@@ -35,15 +43,17 @@ class MatchRequest(BaseModel):
     platforms: List[str] = []                  # PC | Mobile | Console | VR | etc.
     engines: List[str] = []                    # Unity | Unreal | Godot | etc.
     genres: List[str] = []                     # RPG | FPS | Casual | Strategy | etc.
+    art_styles: List[str] = []                 # Art styles (relevant for Art & Animation roles)
     employment_types: List[str] = []           # Full-time | Part-time | Contract | Freelance
     work_preferences: List[str] = []           # Remote | Hybrid | Onsite
 
     # Candidate — free text signals
-    game_titles: Optional[str] = None          # GameTitlesOrApps — shipped titles (strong seniority signal)
-    motivation: Optional[str] = None           # Why looking for a new role
-    expectations: Optional[str] = None        # What they want from next role
-    dream_job: Optional[str] = None            # DreamJob
-    achievements: Optional[str] = None        # Key career achievements
+    game_titles: Optional[str] = None              # GameTitlesOrApps — shipped titles (strong seniority signal)
+    tasks_and_responsibilities: Optional[str] = None  # What they did in previous roles
+    motivation: Optional[str] = None               # Why looking for a new role
+    expectations: Optional[str] = None             # What they want from next role
+    dream_job: Optional[str] = None                # DreamJob
+    achievements: Optional[str] = None             # Key career achievements
 
 
 class MatchResponse(BaseModel):
@@ -65,7 +75,15 @@ class BatchMatchRequest(BaseModel):
     job_description: str
     required_skills: List[str] = []
     job_location: Optional[str] = None
+    job_country: Optional[str] = None
+    job_city: Optional[str] = None
     job_seniority: Optional[str] = None
+    job_salary_min: Optional[float] = None
+    job_salary_max: Optional[float] = None
+    job_art_styles: List[str] = []
+    job_platforms: List[str] = []
+    job_engines: List[str] = []
+    job_genres: List[str] = []
     candidates: List[dict]        # list of candidate dicts — all MatchRequest candidate fields accepted
 
 
