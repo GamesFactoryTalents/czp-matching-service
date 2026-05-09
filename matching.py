@@ -22,8 +22,14 @@ Job Description:
 
 ## CANDIDATE
 ID: {candidate_id}
+Current title: {current_job_title}
+Current employer: {current_employer}
+Years of experience: {experience_years}
+Highest qualification: {highest_qualification}
 Location: {candidate_location}
-Tags/Skills selected: {candidate_tags}
+Conference attendance: {attendance_mode}
+Tags/Specialities: {candidate_tags}
+Skill set (self-reported): {skill_set}
 
 CV:
 {cv_text}
@@ -32,9 +38,9 @@ CV:
 Analyze the candidate's actual experience from their CV against the job requirements.
 Focus on:
 - Depth of relevant experience (not just keyword presence)
-- Seniority level match
-- Location compatibility
-- Skill gaps that would block performance
+- Seniority level match (use years of experience and current title as signals)
+- Location compatibility (consider conference attendance mode if relevant)
+- Skill gaps that would block performance in this role
 - Hidden strengths the tag matching might miss
 
 Return ONLY this JSON (no markdown, no extra text):
@@ -58,16 +64,23 @@ Be honest about gaps — a false positive wastes recruiter time."""
 
 
 def build_prompt(req: MatchRequest) -> str:
+    exp = f"{req.experience_years} years" if req.experience_years is not None else "Not specified"
     return MATCH_PROMPT.format(
         job_title=req.job_title,
         job_location=req.job_location or "Not specified",
         job_seniority=req.job_seniority or "Not specified",
         required_skills=", ".join(req.required_skills) if req.required_skills else "See job description",
-        job_description=req.job_description[:4000],  # cap to avoid token overflow
+        job_description=req.job_description[:4000],
         candidate_id=req.candidate_id,
+        current_job_title=req.current_job_title or "Not specified",
+        current_employer=req.current_employer or "Not specified",
+        experience_years=exp,
+        highest_qualification=req.highest_qualification or "Not specified",
         candidate_location=req.location or "Not specified",
+        attendance_mode=req.attendance_mode or "Not specified",
         candidate_tags=", ".join(req.candidate_tags) if req.candidate_tags else "None provided",
-        cv_text=req.cv_text[:6000],  # cap CV text
+        skill_set=req.skill_set or "Not provided",
+        cv_text=req.cv_text[:6000],
     )
 
 

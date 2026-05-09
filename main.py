@@ -108,6 +108,13 @@ def match_batch(
             location=cand.get("location"),
             job_location=req.job_location,
             job_seniority=req.job_seniority,
+            current_job_title=cand.get("current_job_title"),
+            current_employer=cand.get("current_employer"),
+            experience_years=cand.get("experience_years"),
+            skill_set=cand.get("skill_set"),
+            highest_qualification=cand.get("highest_qualification"),
+            linkedin_url=cand.get("linkedin_url"),
+            attendance_mode=cand.get("attendance_mode"),
         )
         if not single_req.cv_text.strip():
             continue
