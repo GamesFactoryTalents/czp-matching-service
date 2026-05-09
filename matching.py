@@ -1,13 +1,17 @@
 import json
 import anthropic
 from models import MatchRequest, MatchResponse
+from taxonomy import taxonomy_context
 from datetime import datetime, timezone
 
 
-SYSTEM_PROMPT = """You are an expert games industry recruiter with 15+ years of experience.
+SYSTEM_PROMPT = f"""You are an expert games industry recruiter with 15+ years of experience.
 Your job is to evaluate how well a candidate's profile matches a job opening.
 You understand the games industry deeply — the difference between engines, platforms, genres,
 and what seniority really means in studios of different sizes.
+
+{taxonomy_context()}
+
 Always return valid JSON only — no markdown, no explanation outside the JSON."""
 
 MATCH_PROMPT = """Evaluate this candidate for the job opening below.
