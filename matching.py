@@ -95,17 +95,24 @@ Return ONLY this JSON (no markdown, no extra text):
   "score": <integer 0-100>,
   "seniority_match": <true|false>,
   "location_match": <true|false>,
-  "strengths": [<up to 5 specific strings>],
-  "gaps": [<up to 5 specific strings, empty array if none>],
+  "strengths": [<up to 5 specific strings — cite CV evidence, be concrete>],
+  "gaps": [<up to 5 specific strings — name the missing skill/experience, be concrete>],
   "summary": "<2-3 sentence plain English assessment, cite CV evidence>",
-  "recommendation": "<Shortlist|Review|Pass>"
+  "recommendation": "<Shortlist|Review|Pass>",
+  "next_steps": [<2-4 specific recruiter actions, e.g. 'Schedule a technical screen focusing on React depth', 'Clarify availability and reason for leaving Reaktor', 'Pass — no software engineering background'>],
+  "interview_questions": [<3-5 targeted questions to ask this specific candidate, based on their gaps or things needing verification — e.g. 'Can you walk us through a recent project where you used React and Node.js together?', 'What PostgreSQL experience do you have in production systems?'>]
 }}
 
 Scoring guide:
 - 80-100: Strong match, shortlist immediately
 - 60-79: Good match worth reviewing, minor gaps
 - 40-59: Partial match, significant gaps
-- 0-39: Poor match, pass"""
+- 0-39: Poor match, pass
+
+next_steps guidance:
+- Shortlist: focus on scheduling, logistics, salary discussion
+- Review: focus on verifying specific gaps, arranging a call
+- Pass: one clear reason why, no interview questions needed"""
 
 
 def _fmt_list(items: list) -> str:
@@ -205,5 +212,7 @@ def match_candidate(client: anthropic.Anthropic, req: MatchRequest) -> MatchResp
         gaps=data.get("gaps", []),
         summary=data.get("summary", ""),
         recommendation=data.get("recommendation", "Review"),
+        next_steps=data.get("next_steps", []),
+        interview_questions=data.get("interview_questions", []),
         calculated_at=datetime.now(timezone.utc).isoformat(),
     )
