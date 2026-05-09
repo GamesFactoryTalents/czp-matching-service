@@ -100,7 +100,8 @@ Return ONLY this JSON (no markdown, no extra text):
   "summary": "<2-3 sentence plain English assessment, cite CV evidence>",
   "recommendation": "<Shortlist|Review|Pass>",
   "next_steps": [<2-4 specific recruiter actions, e.g. 'Schedule a technical screen focusing on React depth', 'Clarify availability and reason for leaving Reaktor', 'Pass — no software engineering background'>],
-  "interview_questions": [<3-5 targeted questions to ask this specific candidate, based on their gaps or things needing verification — e.g. 'Can you walk us through a recent project where you used React and Node.js together?', 'What PostgreSQL experience do you have in production systems?'>]
+  "interview_questions": [<3-5 targeted questions to ask this specific candidate, based on their gaps or things needing verification — e.g. 'Can you walk us through a recent project where you used React and Node.js together?', 'What PostgreSQL experience do you have in production systems?'>],
+  "recruiter_brief": "<For Shortlist/Review: 3-5 sentence narrative addressed to the recruiter explaining exactly why this candidate is worth interviewing, what makes them compelling for this specific role, what to probe in the interview, and any logistics to confirm (availability, salary, location). Write it as a human recommendation — e.g. 'Christian previously worked at Reaktor so he already knows the culture and the client model. His TypeScript/Node.js/Python stack matches Reaktor's core, and his 6 AWS certs show the DevOps depth the role needs. The main thing to verify in the call is how deep his React experience goes versus Vue.js. Also confirm his availability and whether the €7,500/month expectation is flexible. I'd schedule a 30-min intro call first, then move straight to a technical screen if React checks out.' For Pass: leave as empty string.>"
 }}
 
 Scoring guide:
@@ -214,5 +215,6 @@ def match_candidate(client: anthropic.Anthropic, req: MatchRequest) -> MatchResp
         recommendation=data.get("recommendation", "Review"),
         next_steps=data.get("next_steps", []),
         interview_questions=data.get("interview_questions", []),
+        recruiter_brief=data.get("recruiter_brief", ""),
         calculated_at=datetime.now(timezone.utc).isoformat(),
     )

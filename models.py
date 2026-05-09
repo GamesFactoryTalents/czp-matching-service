@@ -68,6 +68,7 @@ class MatchResponse(BaseModel):
     recommendation: str           # Shortlist | Review | Pass
     next_steps: List[str]         # Recruiter actions: what to do next
     interview_questions: List[str]  # Questions to ask based on gaps/unknowns
+    recruiter_brief: str          # Narrative recommendation for recruiter — why to interview and what to focus on
     calculated_at: str
 
 
