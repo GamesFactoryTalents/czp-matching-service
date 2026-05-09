@@ -3,24 +3,47 @@ from typing import Optional, List
 
 
 class MatchRequest(BaseModel):
+    # Core identifiers
     candidate_id: str
     job_id: str
+
+    # Text content for semantic matching
     cv_text: str
     job_description: str
+
+    # Job fields
     job_title: str
     required_skills: List[str] = []
-    candidate_tags: List[str] = []
-    location: Optional[str] = None              # candidate's city/country
     job_location: Optional[str] = None
-    job_seniority: Optional[str] = None
-    # Additional Zoho candidate fields
-    current_job_title: Optional[str] = None     # Current_Job_Title in Zoho
-    current_employer: Optional[str] = None      # Current_Employer in Zoho
-    experience_years: Optional[float] = None    # Experience_in_Years in Zoho
-    skill_set: Optional[str] = None             # Skill_Set text field in Zoho
-    highest_qualification: Optional[str] = None # Highest_Qualification_Held in Zoho
-    linkedin_url: Optional[str] = None          # LinkedIn profile URL
-    attendance_mode: Optional[str] = None       # "Onsite" | "Online" for the conference
+    job_seniority: Optional[str] = None         # Junior | Mid | Senior | Lead | Director
+
+    # Candidate — basic
+    current_job_title: Optional[str] = None     # JobTitle in OutSystems
+    category: Optional[str] = None             # broad discipline: Engineering, Art, Design, etc.
+    seniority: Optional[str] = None            # candidate's self-reported seniority level
+    experience_years: Optional[float] = None   # TotalYears
+    years_in_gaming: Optional[float] = None    # YearsInGaming — gaming-specific experience
+    location: Optional[str] = None             # City + Country
+    attendance_mode: Optional[str] = None      # "Onsite" | "Online" for the conference
+    is_open_to_relocation: Optional[bool] = None
+    expected_salary: Optional[str] = None
+    linkedin_url: Optional[str] = None
+
+    # Candidate — structured gaming tags (lists)
+    candidate_tags: List[str] = []             # Specializations
+    skills: List[str] = []                     # Skills
+    platforms: List[str] = []                  # PC | Mobile | Console | VR | etc.
+    engines: List[str] = []                    # Unity | Unreal | Godot | etc.
+    genres: List[str] = []                     # RPG | FPS | Casual | Strategy | etc.
+    employment_types: List[str] = []           # Full-time | Part-time | Contract | Freelance
+    work_preferences: List[str] = []           # Remote | Hybrid | Onsite
+
+    # Candidate — free text signals
+    game_titles: Optional[str] = None          # GameTitlesOrApps — shipped titles (strong seniority signal)
+    motivation: Optional[str] = None           # Why looking for a new role
+    expectations: Optional[str] = None        # What they want from next role
+    dream_job: Optional[str] = None            # DreamJob
+    achievements: Optional[str] = None        # Key career achievements
 
 
 class MatchResponse(BaseModel):
@@ -43,7 +66,7 @@ class BatchMatchRequest(BaseModel):
     required_skills: List[str] = []
     job_location: Optional[str] = None
     job_seniority: Optional[str] = None
-    candidates: List[dict]        # [{candidate_id, cv_text, tags, location, current_job_title, current_employer, experience_years, skill_set, highest_qualification, linkedin_url, attendance_mode}]
+    candidates: List[dict]        # list of candidate dicts — all MatchRequest candidate fields accepted
 
 
 class BatchMatchResponse(BaseModel):
