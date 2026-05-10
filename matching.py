@@ -189,6 +189,23 @@ def build_prompt(req: MatchRequest) -> str:
     )
 
 
+def _format_recruiter_text(data: dict) -> str:
+    """Build a single readable text block for the OutSystems tooltip."""
+    parts = []
+    if data.get("recruiter_brief"):
+        parts.append(data["recruiter_brief"])
+    strengths = data.get("strengths", [])
+    if strengths:
+        parts.append("Strengths:\n" + "\n".join(f"• {s}" for s in strengths))
+    gaps = data.get("gaps", [])
+    if gaps:
+        parts.append("Gaps:\n" + "\n".join(f"• {g}" for g in gaps))
+    next_steps = data.get("next_steps", [])
+    if next_steps:
+        parts.append("Next steps:\n" + "\n".join(f"• {s}" for s in next_steps))
+    return "\n\n".join(parts)
+
+
 def match_candidate(client: anthropic.Anthropic, req: MatchRequest) -> MatchResponse:
     prompt = build_prompt(req)
 
@@ -223,5 +240,6 @@ def match_candidate(client: anthropic.Anthropic, req: MatchRequest) -> MatchResp
         next_steps=data.get("next_steps", []),
         interview_questions=data.get("interview_questions", []),
         recruiter_brief=data.get("recruiter_brief", ""),
+        recruiter_text=_format_recruiter_text(data),
         calculated_at=datetime.now(timezone.utc).isoformat(),
     )

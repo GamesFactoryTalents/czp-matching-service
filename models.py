@@ -20,6 +20,7 @@ class MatchRequest(BaseModel):
     job_seniority: Optional[str] = None         # Junior | Mid | Senior | Lead | Director
     job_salary_min: Optional[float] = None      # offered salary range min
     job_salary_max: Optional[float] = None      # offered salary range max
+    job_specialities: List[str] = []            # required specialities
     job_art_styles: List[str] = []              # required art styles
     job_platforms: List[str] = []              # required platforms
     job_engines: List[str] = []                # required engines
@@ -69,6 +70,7 @@ class MatchResponse(BaseModel):
     next_steps: List[str]         # Recruiter actions: what to do next
     interview_questions: List[str]  # Questions to ask based on gaps/unknowns
     recruiter_brief: str          # Narrative recommendation for recruiter — why to interview and what to focus on
+    recruiter_text: str           # Combined tooltip text: headline + summary + strengths + to explore
     calculated_at: str
 
 
