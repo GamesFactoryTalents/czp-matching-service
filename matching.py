@@ -200,9 +200,6 @@ def _format_recruiter_text(data: dict) -> str:
     gaps = data.get("gaps", [])
     if gaps:
         parts.append("Gaps:\n" + "\n".join(f"• {g}" for g in gaps))
-    next_steps = data.get("next_steps", [])
-    if next_steps:
-        parts.append("Next steps:\n" + "\n".join(f"• {s}" for s in next_steps))
     return "\n\n".join(parts)
 
 
