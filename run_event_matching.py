@@ -102,14 +102,45 @@ def _parse_work_prefs(raw) -> set:
     return {s.lower().strip() for s in str(raw).split(",") if s.strip()}
 
 
-SENIORITY_ORDER = ["junior", "mid", "senior", "lead", "director"]
+SENIORITY_ORDER = ["student/trainee", "junior", "mid", "senior", "lead", "director"]
 
 SENIORITY_ACCEPT = {
-    "junior":   {"junior", "mid"},
-    "mid":      {"junior", "mid", "senior"},
-    "senior":   {"mid", "senior", "lead"},
-    "lead":     {"senior", "lead", "director"},
-    "director": {"lead", "director"},
+    "student/trainee": {"student/trainee", "junior"},
+    "junior":          {"student/trainee", "junior", "mid"},
+    "mid":             {"junior", "mid", "senior"},
+    "senior":          {"mid", "senior", "lead"},
+    "lead":            {"senior", "lead", "director"},
+    "director":        {"lead", "director"},
+}
+
+SENIORITY_NORMALISE = {
+    # student/trainee
+    "student":          "student/trainee",
+    "trainee":          "student/trainee",
+    "student/trainee":  "student/trainee",
+    "intern":           "student/trainee",
+    "graduate":         "student/trainee",
+    # junior
+    "junior":           "junior",
+    "entry":            "junior",
+    "entry-level":      "junior",
+    # mid
+    "mid":              "mid",
+    "middle":           "mid",
+    "intermediate":     "mid",
+    "mid-level":        "mid",
+    # senior
+    "senior":           "senior",
+    # lead
+    "lead":             "lead",
+    "principal":        "lead",
+    "staff":            "lead",
+    # director
+    "director":         "director",
+    "head":             "director",
+    "vp":               "director",
+    "c-level":          "director",
+    "executive":        "director",
 }
 
 
@@ -217,8 +248,10 @@ def pre_filter(cand: dict, job: dict) -> tuple:
     same_category = cand_cat.lower() == job_cat.lower()
 
     # --- Layer 2: Seniority ---
-    job_sen  = (job.get("Work_Experience") or "").strip().lower()
-    cand_sen = (cand.get("Single_Line_1") or cand.get("Seniority_Level_2") or "").strip().lower()
+    job_sen_raw  = (job.get("Work_Experience") or "").strip().lower()
+    cand_sen_raw = (cand.get("Single_Line_1") or cand.get("Seniority_Level_2") or "").strip().lower()
+    job_sen  = SENIORITY_NORMALISE.get(job_sen_raw, job_sen_raw)
+    cand_sen = SENIORITY_NORMALISE.get(cand_sen_raw, cand_sen_raw)
     if job_sen and cand_sen:
         accepted = SENIORITY_ACCEPT.get(job_sen)
         if accepted and cand_sen not in accepted:
